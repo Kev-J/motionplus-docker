@@ -29,7 +29,8 @@ Addition:
 Path to configs in the container: /usr/local/etc/motionplus
 Binary path to launch: /usr/local/bin/motionplus
 
-![alt text](http://url/to/img.png)
+The photo shows the software version:
 
+MotionPlus 0.1.1-git-20231020-70da5c1
 
 <a href="https://ibb.co/mNY1Xs8"><img src="https://i.ibb.co/g4XHP1V/0-1-1.png" alt="0-1-1" border="0"></a>
