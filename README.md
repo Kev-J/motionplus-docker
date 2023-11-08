@@ -29,3 +29,4 @@ Addition:
 Path to configs in the container: /usr/local/etc/motionplus
 Binary path to launch: /usr/local/bin/motionplus
 
+![alt text](http://url/to/img.png)
