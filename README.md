@@ -23,3 +23,8 @@ motion-plus
 
 6. Go to the page of the project we raised: http://you_ip:8080
 7. congratulations, you've done well
+
+Addition:
+Path to configs in the container: /usr/local/etc/motionplus
+Binary path to launch: /usr/local/bin/motionplus
+
