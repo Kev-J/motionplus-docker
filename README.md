@@ -13,13 +13,7 @@ Launch
 4. launch the build: docker build -t motion-plus .
 5. start container:
 
-docker run -d \
---name=motion-plus \
--p 0.0.0.0:8080:8080/tcp \
--h motioneye \
--v /etc/localtime:/etc/localtime:ro \
---restart=always \
-motion-plus
+docker run -d --name=motion-plus -p 0.0.0.0:8080:8080/tcp -h motioneye -v /etc/localtime:/etc/localtime:ro --restart=always motion-plus
 
 6. Go to the page of the project we raised: http://you_ip:8080
 7. congratulations, you've done well
