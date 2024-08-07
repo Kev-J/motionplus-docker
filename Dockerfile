@@ -1,37 +1,44 @@
+FROM debian:bookworm-slim
 
-FROM ubuntu
+ARG TARGETPLATFORM
+ARG DEBIAN_FRONTEND=noninteractive
 
-COPY ./motionplus/ /tmp/motionplus/
-WORKDIR /tmp/motionplus
-
-
-RUN apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-  autoconf automake autopoint build-essential pkgconf libtool libzip-dev libjpeg-dev git \
-  libavformat-dev libavcodec-dev libavutil-dev libswscale-dev libavdevice-dev libopencv-dev \
-  libwebp-dev gettext libmicrohttpd-dev libmariadb-dev libasound2-dev libpulse-dev libfftw3-dev && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists && \
-  autoreconf -fiv && \
-  ./configure && \
-  make && \
-  make install && \
-  rm -rf /tmp/motionplus
-
-
-RUN apt-get autoremove -y
-
-#clean
-RUN DEBIAN_FRONTEND=noninteractive apt-get clean
-RUN DEBIAN_FRONTEND=noninteractive apt-get autoremove
-RUN DEBIAN_FRONTEND=noninteractive rm -rf /var/cache/apt
-
-#copy_conf
-COPY ./files/motionplus-dist.conf /usr/local/etc/motionplus/
-
-#copy
-COPY ./files/moti_start.sh /tmp/moti_start.sh
-RUN ["chmod", "+x", "/tmp/moti_start.sh"]
+RUN apt update && \
+    apt install -y --no-install-recommends \
+        ca-certificates \
+        libasound2 \
+        libavcodec59 \
+        libavdevice59 \
+        libavformat59 \
+        libavutil57 \
+        libcamera0.0.3 \
+        libfftw3-double3 \
+        libjpeg62-turbo \
+        libmariadb3 \
+        libmicrohttpd12 \
+        libopencv-core406 \
+        libopencv-dnn406 \
+        libopencv-imgcodecs406 \
+        libopencv-imgproc406 \
+        libopencv-objdetect406 \
+        libpq5 \
+        libpulse0 \
+        libsqlite3-0 \
+        libswscale6 \
+        libwebp7 \
+        libwebpmux3 \
+        wget
+RUN  if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE=amd64; \
+       elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then ARCHITECTURE=arm; \
+       elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then ARCHITECTURE=aarch64; \
+       else ARCHITECTURE=amd64; fi \
+    && echo $ARCHITECTURE \
+    && wget https://github.com/Motion-Project/motionplus/releases/download/release-0.2.1/bookworm_motionplus_0.2.1-1_$ARCHITECTURE.deb -O motionplus.deb \
+    && dpkg -i motionplus.deb \
+    && rm motionplus.deb \
+    && apt clean \
+    && apt autoremove -y \
+    && rm -rf /var/cache/apt
 
 #start
-CMD ["/tmp/moti_start.sh"]
+#CMD ["/tmp/moti_start.sh"]
